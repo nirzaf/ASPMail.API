@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using MailService;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 
-namespace MailService
+namespace ASPMail.API.MailService
 {
     public class Sender : ISender
     {
@@ -17,13 +18,13 @@ namespace MailService
             _emailConfig = emailConfig;
         }
 
-        public async Task SendEmailAsync(Message message)
+        public async Task SendEmailAsync(global::MailService.Message message)
         {
             var mailMessage = CreateEmailMessage(message);
             await SendAsync(mailMessage);
         }
 
-        private MimeMessage CreateEmailMessage(Message message)
+        private MimeMessage CreateEmailMessage(global::MailService.Message message)
         {
             MimeMessage emailMessage = new();
             emailMessage.From.Add(new MailboxAddress(_emailConfig.UserName, _emailConfig.From));
